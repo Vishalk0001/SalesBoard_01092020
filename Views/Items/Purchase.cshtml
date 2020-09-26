@@ -1,0 +1,45 @@
+﻿@model SalesBoard.Models.Items
+
+@{
+    ViewData["Title"] = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Purchase</h2>
+
+<h3>Are you sure you want to buy this?</h3>
+<div>
+    <h4>Items</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+    
+    <form asp-action="Purchase">
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label"></label>
+            <input asp-for="Quantity" class="form-control" min="1" max="@ViewData["maxQuantity"]"/>
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="Id" name="Item"/>
+        <input type="submit" value="Purchase" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

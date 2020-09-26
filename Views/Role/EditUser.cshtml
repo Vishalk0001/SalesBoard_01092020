@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit User";
+    var roles = (List<IdentityRole>)ViewData["roles"];
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h2>Edit</h2>
+
+<h4>Items</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td>User Id</td>
+                    <td>User Name</td>
+                    <td>Role</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td> @Html.ValueFor(model => model.Id)</td>
+                    <td> @Html.ValueFor(model => model.UserName)</td>
+                    <td> 
+                        @Html.DropDownList("rolesddl", new SelectList((IEnumerable<IdentityRole>)ViewData["roles"], "Id", "Name","Id"),"-Select-",
+                        new
+                        {
+                            onchange = @"getDDLValue();"
+                        })
+                    </td>
+                    <td>   
+                        @Html.ActionLink("Save","AssignRole","Role") 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    
+    function getDDLValue() { 
+        var ddlVal = $('#rolesddl option:selected').text(); 
+        $.get('../SelectedRole', { Name: ddlVal }, function (result) {});
+    } 
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
